@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:lumiere/core/constants/colors.dart';
 import 'package:lumiere/core/constants/fonts.dart';
-import 'package:lumiere/features/presentation/view/widgets/customButton.dart';
-import 'package:lumiere/features/presentation/view/widgets/customDivider.dart';
-import 'package:lumiere/features/presentation/view/widgets/customTextfield.dart';
+import 'package:lumiere/features/auth/presentation/view/widgets/customButton.dart';
+import 'package:lumiere/features/auth/presentation/view/widgets/customDivider.dart';
+import 'package:lumiere/features/auth/presentation/view/widgets/customTextfield.dart';
 
 class LoginPage extends StatelessWidget {
   LoginPage({super.key});
