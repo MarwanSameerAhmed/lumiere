@@ -28,6 +28,7 @@ class Customtextfield extends StatelessWidget {
           fillColor: Colors.white,
           prefixIcon: Icon(perfix),
           hintText: HintText,
+          hintStyle: TextStyle(fontStyle: FontStyle.italic),
         ),
       ),
     );

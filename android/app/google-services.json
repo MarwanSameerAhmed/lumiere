@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "903485516451",
+    "project_id": "lumere-app-fc2e2",
+    "storage_bucket": "lumere-app-fc2e2.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:903485516451:android:7a10350a098e641bfa6d16",
+        "android_client_info": {
+          "package_name": "com.lumiereprojectname.lumiere"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "903485516451-vmk6temtpojleod4d6i5t91765i9gmm4.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.lumiereprojectname.lumiere",
+            "certificate_hash": "22d79405b9e8d55684f013db4f2eeeb625263590"
+          }
+        },
+        {
+          "client_id": "903485516451-2848am4tpc8b4avnbdabhie4nt80d2re.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBWgeNa1r723qyh8P3nF395YDL0iQDpji8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "903485516451-2848am4tpc8b4avnbdabhie4nt80d2re.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
