@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:lumiere/core/constants/colors.dart';
 import 'package:lumiere/core/constants/fonts.dart';
-import 'package:lumiere/features/auth/data/repo/auth_repo.dart';
+import 'package:lumiere/features/auth/presentation/managers/auth_provider.dart';
 import 'package:lumiere/features/auth/presentation/view/widgets/customButton.dart';
 import 'package:lumiere/features/auth/presentation/view/widgets/customTextfield.dart';
+import 'package:provider/provider.dart';
 
 class Resetpassword extends StatelessWidget {
   Resetpassword({super.key});
@@ -75,19 +76,38 @@ class Resetpassword extends StatelessWidget {
 
                     SizedBox(height: 15),
 
-                    Custombutton(
-                      BtnText: "Send to Verify ",
-                      Icons: Icons.article_sharp,
-                      onPressd: () async {
-                        try {
-                          AuthRepo().resetPassword(email: email.text.trim());
-                          Navigator.pop(context);
-                        } catch (e) {
-                          throw Exception(e.toString());
-                        }
+                    Consumer<Authprovider>(
+                      builder: (context, auth, child) {
+                        return Column(
+                          children: [
+                            if (auth.errorMassage != null)
+                              Text(
+                                auth.errorMassage!,
+                                style: TextStyle(color: Colors.red),
+                              ),
+                            SizedBox(height: 10),
+
+                            auth.isLoading
+                                ? Center(child: CircularProgressIndicator())
+                                : Custombutton(
+                                    BtnText: "Send to Verify ",
+                                    Icons: Icons.article_sharp,
+                                    onPressd: () async {
+                                      final success = await auth
+                                          .userResetpassword(
+                                            email: email.text.trim(),
+                                          );
+                                      if (success) {
+                                        Navigator.pop(context);
+                                      }
+                                    },
+                                    Background:
+                                        AppColors.KMainBackgroundButtonColor,
+                                    foreBacground: Colors.white,
+                                  ),
+                          ],
+                        );
                       },
-                      Background: AppColors.KMainBackgroundButtonColor,
-                      foreBacground: Colors.white,
                     ),
                   ],
                 ),

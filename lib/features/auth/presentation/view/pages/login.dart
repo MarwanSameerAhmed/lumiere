@@ -120,11 +120,11 @@ class LoginPage extends StatelessWidget {
                                     BtnText: "Sign in",
                                     Icons: Icons.arrow_forward,
                                     onPressd: () async {
-                                      await auth.userLogin(
+                                      final succss = await auth.userLogin(
                                         email: email.text.trim(),
                                         password: Password.text.trim(),
                                       );
-                                      if (auth.errorMassage == null) {
+                                      if (succss) {
                                         Navigator.pushNamed(
                                           context,
                                           AppRouter.home,
@@ -135,28 +135,36 @@ class LoginPage extends StatelessWidget {
                                         AppColors.KMainBackgroundButtonColor,
                                     foreBacground: Colors.white,
                                   ),
+
+                            SizedBox(height: 15),
+                            if (!auth.isLoading)
+                              Custombutton(
+                                BtnText: "Continue with Google ",
+                                Icons: Icons.article_sharp,
+                                onPressd: () async {
+                                  final susses = await auth
+                                      .userSignInWithGoogle();
+
+                                  if (susses) {
+                                    Navigator.pushNamed(
+                                      context,
+                                      AppRouter.home,
+                                    );
+                                  }
+                                },
+                                Background: Colors.white,
+                                foreBacground: const Color.fromARGB(
+                                  255,
+                                  70,
+                                  69,
+                                  69,
+                                ),
+                              ),
                           ],
                         );
                       },
                     ),
 
-                    SizedBox(height: 15),
-                    Custombutton(
-                      BtnText: "Continue with Google ",
-                      Icons: Icons.article_sharp,
-                      onPressd: () async {
-                        try {
-                          await AuthRepo().signInwithGoogle();
-                          Navigator.pushNamed(context, AppRouter.home);
-                        } catch (e) {
-                          ScaffoldMessenger.of(
-                            context,
-                          ).showSnackBar(SnackBar(content: Text(e.toString())));
-                        }
-                      },
-                      Background: Colors.white,
-                      foreBacground: const Color.fromARGB(255, 70, 69, 69),
-                    ),
                     Customdivider(),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,

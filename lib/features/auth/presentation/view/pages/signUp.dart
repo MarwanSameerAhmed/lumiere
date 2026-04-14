@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:lumiere/core/constants/colors.dart';
 import 'package:lumiere/core/constants/fonts.dart';
 import 'package:lumiere/core/routes/router.dart';
-import 'package:lumiere/core/routes/routes.dart';
-import 'package:lumiere/features/auth/data/repo/auth_repo.dart';
+import 'package:lumiere/features/auth/presentation/managers/auth_provider.dart';
 import 'package:lumiere/features/auth/presentation/view/widgets/customButton.dart';
 import 'package:lumiere/features/auth/presentation/view/widgets/customDivider.dart';
 import 'package:lumiere/features/auth/presentation/view/widgets/customTextfield.dart';
+import 'package:provider/provider.dart';
 
 class SignupPage extends StatelessWidget {
   SignupPage({super.key});
@@ -98,26 +98,84 @@ class SignupPage extends StatelessWidget {
 
                       SizedBox(height: 15),
 
-                      Custombutton(
-                        BtnText: "Sign up",
-                        Icons: Icons.arrow_forward,
-                        onPressd: () async {
-                          try {
-                            await AuthRepo().SignUp(
-                              email: email.text.trim(),
-                              name: name.text.trim(),
-                              password: password.text.trim(),
-                            );
-                            Navigator.pushNamed(context, AppRouter.home);
-                          } catch (e) {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(content: Text(e.toString())),
-                            );
-                          }
+                      Consumer<Authprovider>(
+                        builder: (context, auth, child) {
+                          return Column(
+                            children: [
+                              if (auth.errorMassage != null)
+                                Text(
+                                  auth.errorMassage!,
+                                  style: TextStyle(color: Colors.red),
+                                ),
+                              SizedBox(height: 10),
+
+                              auth.isLoading
+                                  ? Center(child: CircularProgressIndicator())
+                                  : Custombutton(
+                                      BtnText: "Sign in",
+
+                                      Icons: Icons.arrow_forward,
+
+                                      onPressd: () async {
+                                        final succss = await auth.userLogin(
+                                          email: email.text.trim(),
+
+                                          password: password.text.trim(),
+                                        );
+
+                                        if (succss) {
+                                          Navigator.pushNamed(
+                                            context,
+
+                                            AppRouter.home,
+                                          );
+                                        }
+                                      },
+
+                                      Background:
+                                          AppColors.KMainBackgroundButtonColor,
+
+                                      foreBacground: Colors.white,
+                                    ),
+
+                              SizedBox(height: 15),
+
+                              if (!auth.isLoading)
+                                Custombutton(
+                                  BtnText: "Continue with Google ",
+
+                                  Icons: Icons.article_sharp,
+
+                                  onPressd: () async {
+                                    final susses = await auth
+                                        .userSignInWithGoogle();
+
+                                    if (susses) {
+                                      Navigator.pushNamed(
+                                        context,
+
+                                        AppRouter.home,
+                                      );
+                                    }
+                                  },
+
+                                  Background: Colors.white,
+
+                                  foreBacground: const Color.fromARGB(
+                                    255,
+
+                                    70,
+
+                                    69,
+
+                                    69,
+                                  ),
+                                ),
+                            ],
+                          );
                         },
-                        Background: AppColors.KMainBackgroundButtonColor,
-                        foreBacground: Colors.white,
                       ),
+
                       Customdivider(),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
