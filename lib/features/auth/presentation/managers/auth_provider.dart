@@ -77,4 +77,9 @@ class Authprovider extends ChangeNotifier {
       notifyListeners();
     }
   }
+
+  bool CheckCurruntUser() {
+    final user = _authRepo.getCureeuntUser();
+    return user != null;
+  }
 }

@@ -127,7 +127,7 @@ class SignupPage extends StatelessWidget {
                                           Navigator.pushNamed(
                                             context,
 
-                                            AppRouter.home,
+                                            AppRouter.HomePage,
                                           );
                                         }
                                       },
@@ -154,7 +154,7 @@ class SignupPage extends StatelessWidget {
                                       Navigator.pushNamed(
                                         context,
 
-                                        AppRouter.home,
+                                        AppRouter.HomePage,
                                       );
                                     }
                                   },

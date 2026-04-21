@@ -89,4 +89,8 @@ class AuthRepo {
       throw Exception(e.message ?? "فشل عملية تسجيل الخروج");
     }
   }
+
+  User? getCureeuntUser() {
+    return FirebaseAuth.instance.currentUser;
+  }
 }

@@ -34,7 +34,7 @@ class Main extends StatelessWidget {
     return MaterialApp(
       theme: ThemeData(fontFamily: AppFonts.MainFont),
       debugShowCheckedModeBanner: false,
-      initialRoute: AppRouter.login,
+      initialRoute: AppRouter.Splashpage,
       routes: AppRoutes.routes,
     );
   }

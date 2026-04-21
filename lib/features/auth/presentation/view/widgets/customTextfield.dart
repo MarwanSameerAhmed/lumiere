@@ -5,19 +5,22 @@ class Customtextfield extends StatelessWidget {
   final IconData perfix;
   final TextEditingController controller;
   final bool isPassword;
+  final String? Function(String?)? validator;
   const Customtextfield({
     super.key,
     required this.HintText,
     required this.perfix,
     required this.controller,
     required this.isPassword,
+    this.validator,
   });
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 18),
-      child: TextField(
+      child: TextFormField(
+        validator: validator,
         controller: controller,
         decoration: InputDecoration(
           border: OutlineInputBorder(
