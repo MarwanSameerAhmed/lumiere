@@ -6,11 +6,13 @@ import 'package:lumiere/core/constants/colors.dart';
 class Categoriescard extends StatelessWidget {
   final String Title;
   final bool isSelected;
+  final String icons;
 
   const Categoriescard({
     super.key,
     required this.Title,
     required this.isSelected,
+    required this.icons,
   });
 
   @override
@@ -31,7 +33,7 @@ class Categoriescard extends StatelessWidget {
       child: Column(
         children: [
           Icon(
-            Icons.category,
+            getIconFromString(icons),
             color: isSelected
                 ? Color(0xffC9A962)
                 : AppColors.KPrimaryBackgroundColor,
@@ -50,5 +52,20 @@ class Categoriescard extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  IconData getIconFromString(String icons) {
+    switch (icons) {
+      case 'shirt':
+        return Icons.dry_cleaning;
+      case 'ring':
+        return Icons.ring_volume;
+      case 'bag':
+        return Icons.local_shipping_outlined;
+      case 'all':
+        return Icons.menu_outlined;
+      default:
+        return Icons.category;
+    }
   }
 }

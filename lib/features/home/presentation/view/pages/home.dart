@@ -1,14 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:lumiere/core/constants/colors.dart';
+import 'package:lumiere/features/home/presentation/manager/homeProvider.dart';
 import 'package:lumiere/features/home/presentation/view/widgets/carousel.dart';
 import 'package:lumiere/features/home/presentation/view/widgets/categoriesSection.dart';
 import 'package:lumiere/features/home/presentation/view/widgets/productSection.dart';
+import 'package:provider/provider.dart';
 
 class HomePage extends StatelessWidget {
-  const HomePage({super.key});
+  HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    Future.microtask(() {
+      final homepro = Provider.of<Homeprovider>(context, listen: false);
+      if (homepro.category.isEmpty) homepro.fetchAllCategoryies();
+      if (homepro.product.isEmpty) homepro.fetchAllProduct();
+    });
     return Scaffold(
       backgroundColor: AppColors.KSecoundaryBackgroundColor,
       body: SingleChildScrollView(
@@ -65,7 +72,28 @@ class HomePage extends StatelessWidget {
                 ),
               ),
               SizedBox(height: 25),
-              CategoriesSection(),
+              Consumer<Homeprovider>(
+                builder: (context, value, child) {
+                  if (value.isLoadingcat) return CircularProgressIndicator();
+                  if (value.errorMassage != null) {
+                    return Column(
+                      children: [
+                        Text(value.errorMassage!),
+                        ElevatedButton(
+                          onPressed: () => value.fetchAllCategoryies(),
+                          child: Text("إعادة المحاولة"),
+                        ),
+                      ],
+                    );
+                  }
+                  if (value.category.isEmpty) {
+                    return const Center(child: Text("No categroies found"));
+                  }
+
+                  return CategoriesSection(cat: value.category);
+                },
+              ),
+
               SizedBox(height: 25),
               Text(
                 "TRENDING NOW",
@@ -76,7 +104,33 @@ class HomePage extends StatelessWidget {
                 ),
               ),
               SizedBox(height: 25),
-              Productsection(),
+              Consumer<Homeprovider>(
+                builder: (context, value, child) {
+                  if (value.isLoadingpro) {
+                    return const Center(child: CircularProgressIndicator());
+                  }
+
+                  if (value.errorMassage != null) {
+                    return Center(
+                      child: Column(
+                        children: [
+                          Text("Error: ${value.errorMassage}"),
+                          IconButton(
+                            icon: Icon(Icons.refresh),
+                            onPressed: () => value.fetchAllProduct(),
+                          ),
+                        ],
+                      ),
+                    );
+                  }
+
+                  if (value.product.isEmpty) {
+                    return const Center(child: Text("No products found "));
+                  }
+
+                  return Productsection(products: value.product);
+                },
+              ),
             ],
           ),
         ),

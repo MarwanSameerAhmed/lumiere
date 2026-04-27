@@ -1,9 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:lumiere/features/home/data/models/product.dart';
 import 'package:lumiere/features/home/presentation/view/widgets/productCard.dart';
+import 'package:lumiere/features/home/presentation/view/widgets/productdetailes.dart';
 
-class Productsection extends StatelessWidget {
-  const Productsection({super.key});
+class Productsection extends StatefulWidget {
+  final List<Products> products;
+  const Productsection({super.key, required this.products});
 
+  @override
+  State<Productsection> createState() => _ProductsectionState();
+}
+
+class _ProductsectionState extends State<Productsection> {
   @override
   Widget build(BuildContext context) {
     return GridView.builder(
@@ -16,13 +24,9 @@ class Productsection extends StatelessWidget {
         mainAxisSpacing: 15,
         childAspectRatio: 0.7,
       ),
-      itemCount: 4,
+      itemCount: widget.products.length,
       itemBuilder: (context, index) {
-        return Productcard(
-          title: "Maison Satin Tote",
-          price: "234",
-          imageUrl: "assets/images.jpg",
-        );
+        return Productcard(products: widget.products[index]);
       },
     );
   }

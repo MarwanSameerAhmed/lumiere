@@ -3,6 +3,7 @@ class Products {
   final String ProductName;
   final String price;
   final String imageUrl;
+  final String Description;
   final String CategoryId;
   final int stock;
 
@@ -11,6 +12,7 @@ class Products {
     required this.ProductName,
     required this.price,
     required this.imageUrl,
+    required this.Description,
     required this.CategoryId,
     required this.stock,
   });
@@ -21,6 +23,7 @@ class Products {
       "ProductName": ProductName,
       "price": price,
       "imageUrl": imageUrl,
+      "Description": Description,
       "CategoryId": CategoryId,
       "stock": stock,
     };
@@ -28,12 +31,13 @@ class Products {
 
   factory Products.fromJson(Map<String, dynamic> json) {
     return Products(
-      Uid: json['Uid'],
-      ProductName: json['ProductName'],
-      price: json['price'],
-      imageUrl: json['imageUrl'],
-      CategoryId: json['categoryId'],
-      stock: json['stock'],
+      Uid: json['Uid']?.toString() ?? "",
+      ProductName: json['ProductName']?.toString() ?? "",
+      price: json['price']?.toString() ?? "",
+      imageUrl: json['imageUrl']?.toString() ?? "",
+      Description: json['Description'] ?? "",
+      CategoryId: json['CategoryId']?.toString() ?? "",
+      stock: (json['stock'] is int) ? json['stock'] : 0,
     );
   }
 }
