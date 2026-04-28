@@ -82,4 +82,37 @@ class Authprovider extends ChangeNotifier {
     final user = _authRepo.getCureeuntUser();
     return user != null;
   }
+
+  Future<String> getUserRoleProvider() async {
+    isLoading = true;
+    errorMassage = null;
+    notifyListeners();
+    try {
+      String? uid = _authRepo.getCureeuntUser()!.uid;
+      String role = await _authRepo.getUserRole(uid);
+      return role;
+    } catch (e) {
+      errorMassage = e.toString();
+      notifyListeners();
+      return 'user';
+    } finally {
+      notifyListeners();
+    }
+  }
+
+  Future<bool> signout() async {
+    isLoading = true;
+    errorMassage = null;
+    notifyListeners();
+    try {
+      await _authRepo.SignOut();
+      return true;
+    } catch (e) {
+      errorMassage = e.toString();
+      return false;
+    } finally {
+      isLoading = false;
+      notifyListeners();
+    }
+  }
 }

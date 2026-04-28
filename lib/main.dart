@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:lumiere/core/constants/fonts.dart';
 import 'package:lumiere/core/routes/router.dart';
 import 'package:lumiere/core/routes/routes.dart';
+import 'package:lumiere/features/admin/presentaion/manager/AdminProvider.dart';
 import 'package:lumiere/features/auth/presentation/managers/auth_provider.dart';
 import 'package:lumiere/features/auth/presentation/view/pages/login.dart';
 import 'package:lumiere/features/home/data/models/categorys.dart';
@@ -29,6 +30,7 @@ void main() async {
       providers: [
         ChangeNotifierProvider(create: (_) => Authprovider()),
         ChangeNotifierProvider(create: (_) => Homeprovider()),
+        ChangeNotifierProvider(create: (_) => Adminprovider()),
       ],
       child: const Main(),
     ),

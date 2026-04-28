@@ -5,7 +5,7 @@ class Products {
   final String imageUrl;
   final String Description;
   final String CategoryId;
-  final int stock;
+  final String stock;
 
   Products({
     required this.Uid,
@@ -37,7 +37,7 @@ class Products {
       imageUrl: json['imageUrl']?.toString() ?? "",
       Description: json['Description'] ?? "",
       CategoryId: json['CategoryId']?.toString() ?? "",
-      stock: (json['stock'] is int) ? json['stock'] : 0,
+      stock: (json['stock'] is String) ? json['stock'] : "0",
     );
   }
 }

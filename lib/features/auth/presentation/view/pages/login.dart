@@ -145,7 +145,7 @@ class LoginPage extends StatelessWidget {
                                           if (succss) {
                                             Navigator.pushNamed(
                                               context,
-                                              AppRouter.HomePage,
+                                              AppRouter.Warpper,
                                             );
                                           }
                                         }
@@ -167,7 +167,7 @@ class LoginPage extends StatelessWidget {
                                     if (susses) {
                                       Navigator.pushNamed(
                                         context,
-                                        AppRouter.HomePage,
+                                        AppRouter.Warpper,
                                       );
                                     }
                                   },

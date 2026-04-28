@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:lumiere/core/constants/colors.dart';
+import 'package:lumiere/core/routes/router.dart';
+import 'package:lumiere/features/auth/data/repo/auth_repo.dart';
+import 'package:lumiere/features/auth/presentation/managers/auth_provider.dart';
 import 'package:lumiere/features/home/presentation/manager/homeProvider.dart';
 import 'package:lumiere/features/home/presentation/view/widgets/carousel.dart';
 import 'package:lumiere/features/home/presentation/view/widgets/categoriesSection.dart';
@@ -8,6 +11,7 @@ import 'package:provider/provider.dart';
 
 class HomePage extends StatelessWidget {
   HomePage({super.key});
+  final auth = Authprovider();
 
   @override
   Widget build(BuildContext context) {
@@ -48,13 +52,21 @@ class HomePage extends StatelessWidget {
                         child: Icon(Icons.notifications_outlined),
                       ),
                       SizedBox(width: 5),
-                      Container(
-                        padding: EdgeInsets.all(5),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(12),
-                          color: Color(0xffF0EDE4),
+                      GestureDetector(
+                        onTap: () async {
+                          final succ = await auth.signout();
+                          if (succ) {
+                            Navigator.pushNamed(context, AppRouter.login);
+                          }
+                        },
+                        child: Container(
+                          padding: EdgeInsets.all(5),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(12),
+                            color: Color(0xffF0EDE4),
+                          ),
+                          child: CircleAvatar(radius: 16),
                         ),
-                        child: CircleAvatar(radius: 16),
                       ),
                     ],
                   ),

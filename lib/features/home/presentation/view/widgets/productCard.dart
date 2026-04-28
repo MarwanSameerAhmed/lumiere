@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:lumiere/features/home/data/models/product.dart';
 import 'package:lumiere/features/home/presentation/view/widgets/productdetailes.dart';
@@ -39,7 +41,10 @@ class Productcard extends StatelessWidget {
                 borderRadius: BorderRadius.circular(20),
                 child: AspectRatio(
                   aspectRatio: 1 / 1,
-                  child: Image.asset(products.imageUrl, fit: BoxFit.cover),
+                  child: Image.memory(
+                    base64Decode(products.imageUrl),
+                    fit: BoxFit.cover,
+                  ),
                 ),
               ),
             ),

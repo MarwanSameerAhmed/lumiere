@@ -23,7 +23,7 @@ class _WarpperState extends State<Warpper> {
     final Warpper = Authprovider();
     String role = await Warpper.getUserRoleProvider();
     if (role == 'admin') {
-      Navigator.pushNamed(context, AppRouter.Admindasboard);
+      Navigator.pushNamed(context, AppRouter.Admindashboard);
     } else {
       Navigator.pushNamed(context, AppRouter.Mainlayout);
     }

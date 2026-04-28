@@ -93,4 +93,19 @@ class AuthRepo {
   User? getCureeuntUser() {
     return FirebaseAuth.instance.currentUser;
   }
+
+  Future<String> getUserRole(String uid) async {
+    try {
+      DocumentSnapshot doc = await _firestore
+          .collection('users')
+          .doc(uid)
+          .get();
+      if (doc.exists) {
+        return doc.get('role') ?? 'user';
+      }
+      return "user";
+    } catch (e) {
+      return 'user';
+    }
+  }
 }
