@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lumiere/core/constants/colors.dart';
 import 'package:lumiere/core/routes/router.dart';
 import 'package:lumiere/features/auth/presentation/managers/auth_provider.dart';
 import 'package:provider/provider.dart';
@@ -19,19 +20,20 @@ class _SplashpageState extends State<Splashpage> {
   }
 
   void _handler() async {
-    await Future.delayed(Duration(seconds: 2));
+    await Future.delayed(const Duration(seconds: 2));
     if (!mounted) return;
-    Provider.of<Authprovider>(context, listen: false);
-    if (Authprovider().CheckCurruntUser()) {
-      Navigator.pushNamed(context, AppRouter.Mainlayout);
+    final authProvider = Provider.of<Authprovider>(context, listen: false);
+    if (authProvider.CheckCurruntUser()) {
+      Navigator.pushReplacementNamed(context, AppRouter.Warpper);
     } else {
-      Navigator.pushNamed(context, AppRouter.login);
+      Navigator.pushReplacementNamed(context, AppRouter.login);
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColors.KSecoundaryBackgroundColor,
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,

@@ -2,9 +2,11 @@ import 'package:flutter/widgets.dart';
 import 'package:lumiere/core/routes/router.dart';
 import 'package:lumiere/core/widgets/splashPage.dart';
 import 'package:lumiere/core/widgets/warpper.dart';
-import 'package:lumiere/features/admin/presentaion/view/pages/AddNewProduct.dart';
+import 'package:lumiere/features/admin/presentaion/view/pages/CategoryiesManagements/AddNewCategory.dart';
+import 'package:lumiere/features/admin/presentaion/view/pages/CategoryiesManagements/adminCategoryiesManagement.dart';
+import 'package:lumiere/features/admin/presentaion/view/pages/ProductsManagements/AddNewProduct.dart';
 import 'package:lumiere/features/admin/presentaion/view/pages/adminDashboard.dart';
-import 'package:lumiere/features/admin/presentaion/view/pages/adminProductManagement.dart';
+import 'package:lumiere/features/admin/presentaion/view/pages/ProductsManagements/adminProductManagement.dart';
 import 'package:lumiere/features/auth/presentation/view/pages/login.dart';
 import 'package:lumiere/features/auth/presentation/view/pages/resetpassword.dart';
 import 'package:lumiere/features/auth/presentation/view/pages/signUp.dart';
@@ -25,5 +27,8 @@ class AppRoutes {
     AppRouter.Warpper: (context) => Warpper(),
     AppRouter.Admindashboard: (context) => Admindashboard(),
     AppRouter.Addnewproduct: (context) => Addnewproduct(),
+    AppRouter.AdminCategoriesManagement: (context) =>
+        AdminCategoriesManagement(),
+    AppRouter.Addnewcategory: (context) => Addnewcategory(),
   };
 }

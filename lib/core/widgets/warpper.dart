@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:lumiere/core/constants/colors.dart';
 import 'package:lumiere/core/routes/router.dart';
 import 'package:lumiere/core/routes/routes.dart';
 import 'package:lumiere/features/auth/presentation/managers/auth_provider.dart';
 import 'package:lumiere/features/home/presentation/manager/homeProvider.dart';
+import 'package:provider/provider.dart';
 
 class Warpper extends StatefulWidget {
   const Warpper({super.key});
@@ -12,25 +14,29 @@ class Warpper extends StatefulWidget {
 }
 
 class _WarpperState extends State<Warpper> {
-  @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    checkRole();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      checkRole();
+    });
   }
 
   Future<void> checkRole() async {
-    final Warpper = Authprovider();
-    String role = await Warpper.getUserRoleProvider();
+    final authProvider = Provider.of<Authprovider>(context, listen: false);
+    String role = await authProvider.getUserRoleProvider();
+    if (!mounted) return;
     if (role == 'admin') {
-      Navigator.pushNamed(context, AppRouter.Admindashboard);
+      Navigator.pushReplacementNamed(context, AppRouter.Admindashboard);
     } else {
-      Navigator.pushNamed(context, AppRouter.Mainlayout);
+      Navigator.pushReplacementNamed(context, AppRouter.Mainlayout);
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: Center(child: CircularProgressIndicator()));
+    return const Scaffold(
+      backgroundColor: AppColors.KSecoundaryBackgroundColor,
+      body: Center(child: CircularProgressIndicator()),
+    );
   }
 }

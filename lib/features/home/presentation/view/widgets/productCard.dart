@@ -36,7 +36,7 @@ class Productcard extends StatelessWidget {
         child: Column(
           children: [
             Hero(
-              tag: products.imageUrl,
+              tag: products.Uid,
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(20),
                 child: AspectRatio(

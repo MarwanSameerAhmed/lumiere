@@ -23,7 +23,7 @@ class Adminmanagementcards extends StatelessWidget {
         padding: EdgeInsets.symmetric(horizontal: 16, vertical: 20),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(15),
-          border: Border.all(color: Colors.black12),
+          border: Border.all(color: Colors.black38),
           color: color.withOpacity(0.1),
         ),
         child: Column(

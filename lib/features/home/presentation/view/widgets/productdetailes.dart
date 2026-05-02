@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:lumiere/core/constants/colors.dart';
 import 'package:lumiere/features/home/data/models/product.dart';
@@ -34,14 +36,17 @@ class Productdetailes extends StatelessWidget {
                 ],
               ),
               const SizedBox(height: 20),
-              Container(
-                height: MediaQuery.of(context).size.height * 0.45,
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(30),
-                  image: DecorationImage(
-                    image: NetworkImage(""),
-                    fit: BoxFit.cover,
+              Hero(
+                tag: products.Uid,
+                child: Container(
+                  height: MediaQuery.of(context).size.height * 0.45,
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(30),
+                    image: DecorationImage(
+                      image: MemoryImage(base64Decode(products.imageUrl)),
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 ),
               ),
@@ -113,10 +118,10 @@ class Productdetailes extends StatelessWidget {
 
               const SizedBox(height: 20),
               Text(
-                products.price,
+                "\$${products.price}",
                 maxLines: 3,
                 style: const TextStyle(
-                  color: Colors.grey,
+                  color: Colors.black87,
                   height: 1.5,
                   fontSize: 30,
                 ),

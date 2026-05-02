@@ -9,4 +9,6 @@ class AppRouter {
   static const String Warpper = "/Warpper";
   static const String Admindashboard = "/Admindashboard";
   static const String Addnewproduct = "/Addnewproduct";
+  static const String AdminCategoriesManagement = "/AdminCategoriesManagement";
+  static const String Addnewcategory = "/Addnewcategory";
 }
