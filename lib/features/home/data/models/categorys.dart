@@ -10,6 +10,10 @@ class Categorys {
   }
 
   factory Categorys.fromJson(Map<String, dynamic> json) {
-    return Categorys(ID: json['ID'], name: json["name"], icon: json["icon"]);
+    return Categorys(
+      ID: json['ID']?.toString() ?? "",
+      name: json["name"]?.toString() ?? "",
+      icon: json["icon"]?.toString() ?? "",
+    );
   }
 }

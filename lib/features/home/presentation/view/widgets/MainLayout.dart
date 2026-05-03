@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lumiere/core/constants/colors.dart';
+import 'package:lumiere/features/cart/presentation/view/pages/cart.dart';
 import 'package:lumiere/features/home/presentation/view/pages/home.dart';
 import 'package:lumiere/features/home/presentation/view/widgets/NavBar.dart';
 
@@ -15,7 +16,7 @@ class _MainlayoutState extends State<Mainlayout> {
   final List<Widget> _pages = [
     HomePage(),
     Center(child: Text("البحث")),
-    Center(child: Text("السله")),
+    cart(),
     Center(child: Text("الطلبات")),
   ];
   @override

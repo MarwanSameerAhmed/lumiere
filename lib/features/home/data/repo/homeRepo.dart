@@ -7,7 +7,7 @@ class Homerepo {
 
   //get all categroies
   Future<List<Categorys>> fetchAllCategories() async {
-    final sanpShot = await _firestore.collection('categoryies').get();
+    final sanpShot = await _firestore.collection('categories').get();
     return sanpShot.docs.map((doc) => Categorys.fromJson(doc.data())).toList();
   }
 

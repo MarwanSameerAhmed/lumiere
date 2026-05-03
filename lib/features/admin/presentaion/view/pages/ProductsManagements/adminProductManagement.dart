@@ -7,8 +7,22 @@ import 'package:lumiere/features/admin/presentaion/view/widgets/adminManagementH
 import 'package:lumiere/features/home/presentation/manager/homeProvider.dart';
 import 'package:provider/provider.dart';
 
-class productManagement extends StatelessWidget {
+class productManagement extends StatefulWidget {
   const productManagement({super.key});
+
+  @override
+  State<productManagement> createState() => _productManagementState();
+}
+
+class _productManagementState extends State<productManagement> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final homePro = Provider.of<Homeprovider>(context, listen: false);
+      homePro.fetchAllProduct();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {

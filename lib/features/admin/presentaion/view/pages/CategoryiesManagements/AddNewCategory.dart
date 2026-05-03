@@ -6,6 +6,7 @@ import 'package:lumiere/features/admin/presentaion/view/widgets/adminManagementH
 import 'package:lumiere/features/auth/presentation/view/widgets/customButton.dart';
 import 'package:lumiere/features/auth/presentation/view/widgets/customTextfield.dart';
 import 'package:lumiere/features/home/data/models/categorys.dart';
+import 'package:lumiere/features/home/presentation/manager/homeProvider.dart';
 import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 
@@ -44,8 +45,8 @@ class Addnewcategory extends StatelessWidget {
 
                   Customtextfield(
                     HintText: 'Enter Category Icon',
-                    perfix: Icons.add,
-                    controller: name,
+                    perfix: Icons.category,
+                    controller: iconName,
                     isPassword: false,
                   ),
 
@@ -67,8 +68,14 @@ class Addnewcategory extends StatelessWidget {
 
                           final succ = await value.addCategory(newPro);
                           if (succ) {
+                            if (context.mounted) {
+                              await Provider.of<Homeprovider>(
+                                context,
+                                listen: false,
+                              ).fetchAllCategoryies();
+                            }
                             Massagetoast.show(msg: "Done!", isError: false);
-                            Navigator.pop(context);
+                            if (context.mounted) Navigator.pop(context);
                           }
                         },
                         Background: AppColors.KMainBackgroundButtonColor,

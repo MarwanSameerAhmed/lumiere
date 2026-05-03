@@ -181,8 +181,14 @@ class _AddnewproductState extends State<Addnewproduct> {
 
                           final succ = await value.addProduct(newPro);
                           if (succ) {
+                            if (context.mounted) {
+                              await Provider.of<Homeprovider>(
+                                context,
+                                listen: false,
+                              ).fetchAllProduct();
+                            }
                             Massagetoast.show(msg: "Done!", isError: false);
-                            Navigator.pop(context);
+                            if (context.mounted) Navigator.pop(context);
                           }
                         },
                         Background: AppColors.KMainBackgroundButtonColor,
