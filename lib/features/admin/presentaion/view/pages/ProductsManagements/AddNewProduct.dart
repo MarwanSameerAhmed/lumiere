@@ -11,6 +11,7 @@ import 'package:lumiere/features/auth/presentation/view/widgets/customButton.dar
 import 'package:lumiere/features/auth/presentation/view/widgets/customTextfield.dart';
 import 'package:lumiere/features/home/data/models/product.dart';
 import 'package:lumiere/features/home/presentation/manager/homeProvider.dart';
+import 'package:lumiere/features/notofication/provi.dart';
 import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 
@@ -47,6 +48,13 @@ class _AddnewproductState extends State<Addnewproduct> {
         _base64String = base64Encode(imageByte);
       });
     }
+  }
+  @override
+  void initState() {
+    super.initState();
+    Future.microtask(() {
+      Provider.of<Homeprovider>(context, listen: false).fetchAllCategoryies();
+    });
   }
 
   @override
@@ -187,6 +195,18 @@ class _AddnewproductState extends State<Addnewproduct> {
                                 listen: false,
                               ).fetchAllProduct();
                             }
+
+                            // إرسال إشعار لجميع المستخدمين
+                            if (context.mounted) {
+                              await Provider.of<NotificationProvider>(
+                                context,
+                                listen: false,
+                              ).notifyAllUsers(
+                                title: '🆕 منتج جديد!',
+                                message: 'تم إضافة ${name.text.trim()} - تصفح الآن!',
+                              );
+                            }
+
                             Massagetoast.show(msg: "Done!", isError: false);
                             if (context.mounted) Navigator.pop(context);
                           }
