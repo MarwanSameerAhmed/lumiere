@@ -1,7 +1,9 @@
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:lumiere/core/constants/fonts.dart';
+import 'package:lumiere/core/network/Fcm_Service.dart';
 import 'package:lumiere/core/routes/router.dart';
 import 'package:lumiere/core/routes/routes.dart';
 import 'package:lumiere/features/admin/presentaion/manager/AdminProvider.dart';
@@ -11,12 +13,16 @@ import 'package:lumiere/features/home/data/models/categorys.dart';
 import 'package:lumiere/features/home/data/models/product.dart';
 import 'package:lumiere/features/home/data/repo/homeRepo.dart';
 import 'package:lumiere/features/home/presentation/manager/homeProvider.dart';
+import 'package:lumiere/features/notifications/presentaion/manager/notificationProvider.dart';
 import 'package:lumiere/firebase_options.dart';
 import 'package:provider/provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.android);
+
+  FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
+  await FcmService.initFCM();
   // await seedsdata();
 
   SystemChrome.setSystemUIOverlayStyle(
@@ -31,6 +37,7 @@ void main() async {
         ChangeNotifierProvider(create: (_) => Authprovider()),
         ChangeNotifierProvider(create: (_) => Homeprovider()),
         ChangeNotifierProvider(create: (_) => Adminprovider()),
+        ChangeNotifierProvider(create: (_) => Notificationprovider()),
       ],
       child: const Main(),
     ),

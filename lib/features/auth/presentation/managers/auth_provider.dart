@@ -16,6 +16,10 @@ class Authprovider extends ChangeNotifier {
 
     try {
       await _authRepo.login(email: email, password: password);
+      String? uid = _authRepo.getCureeuntUser()!.uid;
+      if (uid != null) {
+        await _authRepo.SaveTokenDevice(uid);
+      }
       return true;
     } catch (e) {
       errorMassage = e.toString();
@@ -36,6 +40,10 @@ class Authprovider extends ChangeNotifier {
     notifyListeners();
     try {
       await _authRepo.SignUp(email: email, name: name, password: password);
+      String? uid = _authRepo.getCureeuntUser()!.uid;
+      if (uid != null) {
+        await _authRepo.SaveTokenDevice(uid);
+      }
       return true;
     } catch (e) {
       errorMassage = e.toString();
@@ -52,6 +60,10 @@ class Authprovider extends ChangeNotifier {
     notifyListeners();
     try {
       await _authRepo.signInwithGoogle();
+      String? uid = _authRepo.getCureeuntUser()!.uid;
+      if (uid != null) {
+        await _authRepo.SaveTokenDevice(uid);
+      }
       return true;
     } catch (E) {
       errorMassage = E.toString();

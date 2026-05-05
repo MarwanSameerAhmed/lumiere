@@ -6,6 +6,7 @@ class UserModel {
   final String email;
   final String? userImage;
   final UserRole role;
+  final String? DeviceToken;
   final DateTime createAt;
 
   UserModel({
@@ -15,6 +16,7 @@ class UserModel {
     this.userImage,
     this.role = UserRole.user,
     required this.createAt,
+    this.DeviceToken,
   });
 
   Map<String, dynamic> toMap() {
@@ -24,6 +26,7 @@ class UserModel {
       "email": email,
       "userImage": userImage,
       "role": role == UserRole.admin ? "admin" : "user",
+      "DeviceToken": DeviceToken,
       "createAt": createAt.toIso8601String(),
     };
   }
@@ -35,6 +38,7 @@ class UserModel {
       email: json['email'],
       userImage: json['userImage'],
       role: json["role"] == "admin" ? UserRole.admin : UserRole.user,
+      DeviceToken: json['DeviceToken'],
       createAt: json['createAt'] != null
           ? DateTime.parse(json["createAt"])
           : DateTime.now(),

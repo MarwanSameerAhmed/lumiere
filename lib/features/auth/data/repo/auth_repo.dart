@@ -1,6 +1,9 @@
+import 'dart:math';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:lumiere/features/auth/data/models/user.dart';
 
@@ -31,6 +34,20 @@ class AuthRepo {
       throw Exception(e.message ?? "فشل انشاء الحساب ");
     } catch (e) {
       throw Exception("حدث خطا اثناء حفظ البيانات");
+    }
+  }
+
+  Future<void> SaveTokenDevice(String uid) async {
+    try {
+      String? token = await FirebaseMessaging.instance.getToken();
+      if (token != null) {
+        await _firestore.collection("users").doc(uid).update({
+          "DeviceToken": token,
+        });
+        print("تم حفظ بيانات الجهاز بنجاح");
+      }
+    } catch (e) {
+      print("فشل حفظ بيانات الجهاز: ${e.toString()}");
     }
   }
 

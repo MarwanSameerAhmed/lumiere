@@ -11,6 +11,7 @@ import 'package:lumiere/features/auth/presentation/view/widgets/customButton.dar
 import 'package:lumiere/features/auth/presentation/view/widgets/customTextfield.dart';
 import 'package:lumiere/features/home/data/models/product.dart';
 import 'package:lumiere/features/home/presentation/manager/homeProvider.dart';
+import 'package:lumiere/features/notifications/presentaion/manager/notificationProvider.dart';
 import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 
@@ -194,6 +195,16 @@ class _AddnewproductState extends State<Addnewproduct> {
                                 context,
                                 listen: false,
                               ).fetchAllProduct();
+                            }
+                            if (context.mounted) {
+                              await Provider.of<Notificationprovider>(
+                                context,
+                                listen: false,
+                              ).nottifyallusers(
+                                title: "New Product Added",
+                                body:
+                                    "A new product named ${newPro.ProductName} has been added.",
+                              );
                             }
 
                             Massagetoast.show(msg: "Done!", isError: false);
