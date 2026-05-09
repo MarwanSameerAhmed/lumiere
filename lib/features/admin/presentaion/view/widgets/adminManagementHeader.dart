@@ -2,7 +2,13 @@ import 'package:flutter/material.dart';
 
 class Adminmanagementheader extends StatelessWidget {
   final String Title;
-  Adminmanagementheader({super.key, required this.Title});
+  final bool showBackButton;
+
+  Adminmanagementheader({
+    super.key,
+    required this.Title,
+    this.showBackButton = true,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -12,19 +18,20 @@ class Adminmanagementheader extends StatelessWidget {
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
+            const Text(
               "Good morning,",
               style: TextStyle(fontStyle: FontStyle.italic),
             ),
-            Text(Title, style: TextStyle(fontSize: 30)),
+            Text(Title, style: const TextStyle(fontSize: 30)),
           ],
         ),
-        GestureDetector(
-          onTap: () {
-            Navigator.pop(context);
-          },
-          child: _buildCircleButton(Icons.arrow_forward_ios),
-        ),
+        if (showBackButton)
+          GestureDetector(
+            onTap: () {
+              Navigator.pop(context);
+            },
+            child: _buildCircleButton(Icons.arrow_forward_ios),
+          ),
       ],
     );
   }

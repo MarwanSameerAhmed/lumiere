@@ -4,10 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:lumiere/core/constants/colors.dart';
 
-class Navbar extends StatelessWidget {
+class NavbarAdmin extends StatelessWidget {
   final Function(int) onChange;
   final int currentIndex;
-  const Navbar({super.key, required this.onChange, required this.currentIndex});
+  const NavbarAdmin({
+    super.key,
+    required this.onChange,
+    required this.currentIndex,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -28,9 +32,8 @@ class Navbar extends StatelessWidget {
         padding: EdgeInsets.all(16),
         tabs: [
           GButton(icon: Icons.home_filled, text: "Home"),
-          GButton(icon: Icons.search, text: "Search"),
-          GButton(icon: Icons.shopping_bag_outlined, text: "Cart"),
-          GButton(icon: Icons.list, text: "Orders"),
+          GButton(icon: Icons.add_shopping_cart_rounded, text: "Orders"),
+          GButton(icon: Icons.settings, text: "Settings"),
         ],
         onTabChange: onChange,
       ),

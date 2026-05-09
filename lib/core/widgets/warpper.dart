@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lumiere/core/constants/colors.dart';
 import 'package:lumiere/core/routes/router.dart';
-import 'package:lumiere/core/routes/routes.dart';
 import 'package:lumiere/features/auth/presentation/managers/auth_provider.dart';
-import 'package:lumiere/features/home/presentation/manager/homeProvider.dart';
 import 'package:provider/provider.dart';
 
 class Warpper extends StatefulWidget {
@@ -26,7 +24,7 @@ class _WarpperState extends State<Warpper> {
     String role = await authProvider.getUserRoleProvider();
     if (!mounted) return;
     if (role == 'admin') {
-      Navigator.pushReplacementNamed(context, AppRouter.Admindashboard);
+      Navigator.pushReplacementNamed(context, AppRouter.MainlayoutAdmin);
     } else {
       Navigator.pushReplacementNamed(context, AppRouter.Mainlayout);
     }

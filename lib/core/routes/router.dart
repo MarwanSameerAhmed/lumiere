@@ -11,4 +11,6 @@ class AppRouter {
   static const String Addnewproduct = "/Addnewproduct";
   static const String AdminCategoriesManagement = "/AdminCategoriesManagement";
   static const String Addnewcategory = "/Addnewcategory";
+  static const String AdminOrdersManagement = "/AdminOrdersManagement";
+  static const String MainlayoutAdmin = "/MainlayoutAdmin";
 }

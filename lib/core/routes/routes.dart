@@ -6,7 +6,9 @@ import 'package:lumiere/features/admin/presentaion/view/pages/CategoryiesManagem
 import 'package:lumiere/features/admin/presentaion/view/pages/CategoryiesManagements/adminCategoryiesManagement.dart';
 import 'package:lumiere/features/admin/presentaion/view/pages/ProductsManagements/AddNewProduct.dart';
 import 'package:lumiere/features/admin/presentaion/view/pages/adminDashboard.dart';
+import 'package:lumiere/features/admin/presentaion/view/pages/OrdersManagement/adminOrdersManagement.dart';
 import 'package:lumiere/features/admin/presentaion/view/pages/ProductsManagements/adminProductManagement.dart';
+import 'package:lumiere/features/admin/presentaion/view/widgets/MainLayout.dart';
 import 'package:lumiere/features/auth/presentation/view/pages/login.dart';
 import 'package:lumiere/features/auth/presentation/view/pages/resetpassword.dart';
 import 'package:lumiere/features/auth/presentation/view/pages/signUp.dart';
@@ -30,5 +32,7 @@ class AppRoutes {
     AppRouter.AdminCategoriesManagement: (context) =>
         AdminCategoriesManagement(),
     AppRouter.Addnewcategory: (context) => Addnewcategory(),
+    AppRouter.AdminOrdersManagement: (context) => AdminOrdersManagement(),
+    AppRouter.MainlayoutAdmin: (context) => MainlayoutAdmin(),
   };
 }

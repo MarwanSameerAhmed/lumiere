@@ -1,13 +1,26 @@
 import 'dart:convert';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:lumiere/core/constants/colors.dart';
+import 'package:lumiere/core/widgets/massageToast.dart';
+import 'package:lumiere/features/cart/data/models/cartItem.dart';
+import 'package:lumiere/features/cart/presentation/manager/cartProvider.dart';
 import 'package:lumiere/features/home/data/models/product.dart';
+import 'package:provider/provider.dart';
 
-class Productdetailes extends StatelessWidget {
+class Productdetailes extends StatefulWidget {
   final Products products;
 
   const Productdetailes({super.key, required this.products});
+
+  @override
+  State<Productdetailes> createState() => _ProductdetailesState();
+}
+
+class _ProductdetailesState extends State<Productdetailes> {
+  int _quantity = 1;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,14 +50,16 @@ class Productdetailes extends StatelessWidget {
               ),
               const SizedBox(height: 20),
               Hero(
-                tag: products.Uid,
+                tag: widget.products.Uid,
                 child: Container(
                   height: MediaQuery.of(context).size.height * 0.45,
                   width: double.infinity,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(30),
                     image: DecorationImage(
-                      image: MemoryImage(base64Decode(products.imageUrl)),
+                      image: MemoryImage(
+                        base64Decode(widget.products.imageUrl),
+                      ),
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -55,7 +70,7 @@ class Productdetailes extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    products.ProductName,
+                    widget.products.ProductName,
                     style: const TextStyle(
                       fontSize: 22,
                       fontWeight: FontWeight.w600,
@@ -76,7 +91,7 @@ class Productdetailes extends StatelessWidget {
                 ],
               ),
               Text(
-                products.Description,
+                widget.products.Description,
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.w500,
@@ -98,18 +113,30 @@ class Productdetailes extends StatelessWidget {
                     ),
                     child: Row(
                       children: [
-                        _buildQtyBtn(Icons.remove),
+                        GestureDetector(
+                          onTap: () {
+                            if (_quantity > 1) {
+                              setState(() => _quantity--);
+                            }
+                          },
+                          child: _buildQtyBtn(Icons.remove),
+                        ),
                         Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 15),
+                          padding: const EdgeInsets.symmetric(horizontal: 15),
                           child: Text(
-                            '1',
-                            style: TextStyle(
+                            '$_quantity',
+                            style: const TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
                         ),
-                        _buildQtyBtn(Icons.add, isBlack: true),
+                        GestureDetector(
+                          onTap: () {
+                            setState(() => _quantity++);
+                          },
+                          child: _buildQtyBtn(Icons.add, isBlack: true),
+                        ),
                       ],
                     ),
                   ),
@@ -118,7 +145,7 @@ class Productdetailes extends StatelessWidget {
 
               const SizedBox(height: 20),
               Text(
-                "\$${products.price}",
+                "\$${widget.products.price}",
                 maxLines: 3,
                 style: const TextStyle(
                   color: Colors.black87,
@@ -130,36 +157,44 @@ class Productdetailes extends StatelessWidget {
               const Spacer(),
               Row(
                 children: [
+                  // Buy Now = أضف للسلة + روح للسلة
                   Expanded(
-                    child: Container(
-                      height: 60,
-                      decoration: BoxDecoration(
-                        color: Colors.black,
-                        borderRadius: BorderRadius.circular(30),
-                      ),
-                      child: const Center(
-                        child: Text(
-                          "Buy Now",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
+                    child: GestureDetector(
+                      onTap: () => _addToCart(context, goToCart: true),
+                      child: Container(
+                        height: 60,
+                        decoration: BoxDecoration(
+                          color: Colors.black,
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                        child: const Center(
+                          child: Text(
+                            "Buy Now",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                         ),
                       ),
                     ),
                   ),
                   const SizedBox(width: 15),
-                  Container(
-                    height: 60,
-                    width: 60,
-                    decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0.8),
-                      shape: BoxShape.circle,
-                    ),
-                    child: const Icon(
-                      Icons.shopping_cart_outlined,
-                      color: Colors.black,
+                  // Add to Cart
+                  GestureDetector(
+                    onTap: () => _addToCart(context),
+                    child: Container(
+                      height: 60,
+                      width: 60,
+                      decoration: BoxDecoration(
+                        color: Colors.white.withOpacity(0.8),
+                        shape: BoxShape.circle,
+                      ),
+                      child: const Icon(
+                        Icons.shopping_cart_outlined,
+                        color: Colors.black,
+                      ),
                     ),
                   ),
                 ],
@@ -170,6 +205,32 @@ class Productdetailes extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void _addToCart(BuildContext context, {bool goToCart = false}) async {
+    final userId = FirebaseAuth.instance.currentUser?.uid;
+    if (userId == null) return;
+
+    final cartItem = CartItem(
+      id: widget.products.Uid,
+      name: widget.products.ProductName,
+      imageUrl: widget.products.imageUrl,
+      price: double.tryParse(widget.products.price) ?? 0.0,
+      quantity: _quantity,
+    );
+
+    final cartProvider = Provider.of<CartProvider>(context, listen: false);
+    final success = await cartProvider.addToCart(userId, cartItem);
+
+    if (success && context.mounted) {
+      Massagetoast.show(msg: "Added to cart ✅", isError: false);
+      if (goToCart) {
+        // الرجوع للـ MainLayout والتنقل لتاب السلة
+        Navigator.pop(context, 'goToCart');
+      }
+    } else if (context.mounted) {
+      Massagetoast.show(msg: "Failed to add to cart", isError: true);
+    }
   }
 
   Widget _buildCircleButton(IconData icon) {

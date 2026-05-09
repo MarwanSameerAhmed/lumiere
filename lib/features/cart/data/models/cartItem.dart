@@ -3,7 +3,7 @@ class CartItem {
   final String name;
   final String imageUrl;
   final double price;
-  final int quantity;
+  int quantity;
 
   CartItem({
     required this.id,
@@ -25,11 +25,26 @@ class CartItem {
 
   factory CartItem.fromJson(Map<String, dynamic> json) {
     return CartItem(
-      id: json["id"],
-      name: json["name"],
-      imageUrl: json["imageUrl"],
-      price: json["price"],
-      quantity: json["quantity"],
+      id: json["id"]?.toString() ?? "",
+      name: json["name"]?.toString() ?? "",
+      imageUrl: json["imageUrl"]?.toString() ?? "",
+      price: (json["price"] is num)
+          ? (json["price"] as num).toDouble()
+          : double.tryParse(json["price"]?.toString() ?? "0") ?? 0.0,
+      quantity: (json["quantity"] is int)
+          ? json["quantity"]
+          : int.tryParse(json["quantity"]?.toString() ?? "1") ?? 1,
+    );
+  }
+
+  // نسخة معدلة من العنصر
+  CartItem copyWith({int? quantity}) {
+    return CartItem(
+      id: id,
+      name: name,
+      imageUrl: imageUrl,
+      price: price,
+      quantity: quantity ?? this.quantity,
     );
   }
 }

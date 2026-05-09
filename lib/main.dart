@@ -14,6 +14,8 @@ import 'package:lumiere/features/home/data/models/product.dart';
 import 'package:lumiere/features/home/data/repo/homeRepo.dart';
 import 'package:lumiere/features/home/presentation/manager/homeProvider.dart';
 import 'package:lumiere/features/notifications/presentaion/manager/notificationProvider.dart';
+import 'package:lumiere/features/orders/presentation/manager/orderProvider.dart';
+import 'package:lumiere/features/cart/presentation/manager/cartProvider.dart';
 import 'package:lumiere/firebase_options.dart';
 import 'package:provider/provider.dart';
 
@@ -23,7 +25,6 @@ void main() async {
 
   FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
   await FcmService.initFCM();
-  // await seedsdata();
 
   SystemChrome.setSystemUIOverlayStyle(
     SystemUiOverlayStyle(
@@ -38,67 +39,13 @@ void main() async {
         ChangeNotifierProvider(create: (_) => Homeprovider()),
         ChangeNotifierProvider(create: (_) => Adminprovider()),
         ChangeNotifierProvider(create: (_) => Notificationprovider()),
+        ChangeNotifierProvider(create: (_) => OrderProvider()),
+        ChangeNotifierProvider(create: (_) => CartProvider()),
       ],
       child: const Main(),
     ),
   );
 }
-
-// Future<void> seedsdata() async {
-//   final repo = Homerepo();
-//   List<Categorys> cats = [
-//     Categorys(ID: '2', name: 'Shirt', icon: 'shirt'),
-//     Categorys(ID: '3', name: 'bag', icon: 'bag'),
-//     Categorys(ID: '1', name: 'bag', icon: 'bag'),
-
-//     Categorys(ID: 'all', name: 'All', icon: 'all'),
-//   ];
-//   for (var cat in cats) {
-//     await repo.addCategory(cat);
-//   }
-
-//   List<Products> prod = [
-//     Products(
-//       Uid: '1',
-//       ProductName: 'sultan',
-//       price: '200',
-//       imageUrl: '',
-//       CategoryId: 'all',
-//       stock: 20,
-//     ),
-//     Products(
-//       Uid: '2',
-//       ProductName: 'sami',
-//       price: '200',
-//       imageUrl: '',
-//       CategoryId: 'all',
-//       stock: 20,
-//     ),
-//     Products(
-//       Uid: '3',
-//       ProductName: ' salah',
-//       price: '200',
-//       imageUrl: '',
-//       CategoryId: '3',
-//       stock: 20,
-//     ),
-
-//     Products(
-//       Uid: '4',
-//       ProductName: 'Ali ',
-//       price: '200',
-//       imageUrl: '',
-//       CategoryId: '2',
-//       stock: 20,
-//     ),
-//   ];
-
-//   for (var pro in prod) {
-//     await repo.addProduct(pro);
-//   }
-
-//   print('all cats added');
-// }
 
 class Main extends StatelessWidget {
   const Main({super.key});
