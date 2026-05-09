@@ -53,19 +53,17 @@ class HomePage extends StatelessWidget {
                       ),
                       SizedBox(width: 5),
                       GestureDetector(
-                        onTap: () async {
-                          final succ = await auth.signout();
-                          if (succ) {
-                            Navigator.pushNamed(context, AppRouter.login);
-                          }
+                        onTap: () {
+                          _showLogoutDialog(context);
                         },
                         child: Container(
-                          padding: EdgeInsets.all(5),
+                          padding: const EdgeInsets.all(10),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(12),
-                            color: Color(0xffF0EDE4),
+                            color: const Color(0xffF0EDE4),
                           ),
-                          child: CircleAvatar(radius: 16),
+
+                          child: Icon(Icons.logout),
                         ),
                       ),
                     ],
@@ -146,6 +144,97 @@ class HomePage extends StatelessWidget {
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  void _showLogoutDialog(BuildContext context) {
+    bool isLoggingOut = false;
+
+    showDialog(
+      context: context,
+      builder: (context) => StatefulBuilder(
+        builder: (context, setState) {
+          return AlertDialog(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20),
+            ),
+            backgroundColor: const Color.fromARGB(255, 238, 235, 227),
+            title: const Text(
+              'Logout',
+              textAlign: TextAlign.center,
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+            content: const Text(
+              'Are you sure you want to sign out of your account?',
+              textAlign: TextAlign.center,
+            ),
+            actionsAlignment: MainAxisAlignment.spaceEvenly,
+            actions: [
+              TextButton(
+                onPressed: isLoggingOut ? null : () => Navigator.pop(context),
+                child: const Text(
+                  'Cancel',
+                  style: TextStyle(
+                    color: Colors.grey,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.redAccent,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  elevation: 0,
+                ),
+                onPressed: isLoggingOut
+                    ? null
+                    : () async {
+                        setState(() => isLoggingOut = true);
+                        try {
+                          final auth = Provider.of<Authprovider>(
+                            context,
+                            listen: false,
+                          );
+                          final succ = await auth.signout();
+
+                          if (context.mounted) {
+                            if (succ) {
+                              Navigator.pushNamedAndRemoveUntil(
+                                context,
+                                AppRouter.login,
+                                (route) => false,
+                              );
+                            } else {
+                              setState(() => isLoggingOut = false);
+                            }
+                          }
+                        } catch (e) {
+                          setState(() => isLoggingOut = false);
+                        }
+                      },
+                child: isLoggingOut
+                    ? const SizedBox(
+                        width: 20,
+                        height: 20,
+                        child: CircularProgressIndicator(
+                          color: Colors.white,
+                          strokeWidth: 2,
+                        ),
+                      )
+                    : const Text(
+                        'Logout',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+              ),
+            ],
+          );
+        },
       ),
     );
   }

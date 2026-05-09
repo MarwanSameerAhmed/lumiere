@@ -47,12 +47,13 @@ class Admindashboard extends StatelessWidget {
                           _showLogoutDialog(context);
                         },
                         child: Container(
-                          padding: const EdgeInsets.all(5),
+                          padding: const EdgeInsets.all(10),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(12),
                             color: const Color(0xffF0EDE4),
                           ),
-                          child: const CircleAvatar(radius: 16),
+
+                          child: Icon(Icons.logout),
                         ),
                       ),
                     ],
@@ -99,7 +100,7 @@ class Admindashboard extends StatelessWidget {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(20),
             ),
-            backgroundColor: AppColors.KSecoundaryBackgroundColor,
+            backgroundColor: const Color.fromARGB(255, 238, 235, 227),
             title: const Text(
               'Logout',
               textAlign: TextAlign.center,
@@ -123,7 +124,7 @@ class Admindashboard extends StatelessWidget {
               ),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.redAccent, // نفس لون زر الحذف للتنبيه
+                  backgroundColor: Colors.redAccent,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12),
                   ),
@@ -142,7 +143,6 @@ class Admindashboard extends StatelessWidget {
 
                           if (context.mounted) {
                             if (succ) {
-                              // العودة لصفحة تسجيل الدخول ومسح السجل
                               Navigator.pushNamedAndRemoveUntil(
                                 context,
                                 AppRouter.login,
@@ -150,7 +150,6 @@ class Admindashboard extends StatelessWidget {
                               );
                             } else {
                               setState(() => isLoggingOut = false);
-                              // اختياري: إظهار خطأ في حال فشل تسجيل الخروج
                             }
                           }
                         } catch (e) {

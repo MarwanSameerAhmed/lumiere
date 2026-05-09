@@ -17,7 +17,7 @@ class Navbar extends StatelessWidget {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(50),
         boxShadow: [
-          BoxShadow(color: Colors.white, blurRadius: 10, offset: Offset(0, -5)),
+          BoxShadow(color: Colors.white, blurRadius: 2, offset: Offset(0, -5)),
         ],
       ),
       child: GNav(
