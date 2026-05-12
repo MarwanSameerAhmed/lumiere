@@ -42,10 +42,12 @@ class _cartState extends State<cart> {
                 horizontal: 25.0,
                 vertical: 20,
               ),
-              child: Adminmanagementheader(Title: "Cart"),
+              child: Adminmanagementheader(
+                Title: "Cart",
+                showBackButton: false,
+              ),
             ),
 
-            // قائمة عناصر السلة
             Expanded(
               child: Consumer<CartProvider>(
                 builder: (context, cartProvider, child) {

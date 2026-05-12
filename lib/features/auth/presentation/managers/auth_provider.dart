@@ -1,10 +1,13 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:lumiere/features/auth/data/models/user.dart';
 import 'package:lumiere/features/auth/data/repo/auth_repo.dart';
 
 class Authprovider extends ChangeNotifier {
   final AuthRepo _authRepo = AuthRepo();
   bool isLoading = false;
   String? errorMassage;
+  UserModel? user;
 
   Future<bool> userLogin({
     required String email,
@@ -47,6 +50,24 @@ class Authprovider extends ChangeNotifier {
       return true;
     } catch (e) {
       errorMassage = e.toString();
+      return false;
+    } finally {
+      isLoading = false;
+      notifyListeners();
+    }
+  }
+
+  Future<bool> loadCurrentUser() async {
+    String? Uid = FirebaseAuth.instance.currentUser?.uid;
+    if (Uid == null) return false;
+    try {
+      isLoading = true;
+      notifyListeners();
+      user = await _authRepo.getUserData(Uid);
+      return true;
+    } catch (e) {
+      errorMassage = e.toString();
+      notifyListeners();
       return false;
     } finally {
       isLoading = false;

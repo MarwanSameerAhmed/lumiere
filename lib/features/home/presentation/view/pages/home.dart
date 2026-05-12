@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lumiere/core/constants/colors.dart';
 import 'package:lumiere/core/routes/router.dart';
+import 'package:lumiere/core/widgets/Shimmer.dart';
 import 'package:lumiere/features/auth/data/repo/auth_repo.dart';
 import 'package:lumiere/features/auth/presentation/managers/auth_provider.dart';
 import 'package:lumiere/features/home/presentation/manager/homeProvider.dart';
@@ -17,8 +18,10 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     Future.microtask(() {
       final homepro = Provider.of<Homeprovider>(context, listen: false);
+      final AuthRepo = Provider.of<Authprovider>(context, listen: false);
       if (homepro.category.isEmpty) homepro.fetchAllCategoryies();
       if (homepro.product.isEmpty) homepro.fetchAllProduct();
+      if (AuthRepo.user == null) AuthRepo.loadCurrentUser();
     });
     return Scaffold(
       backgroundColor: AppColors.KSecoundaryBackgroundColor,
@@ -28,48 +31,7 @@ class HomePage extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Good morning,",
-                        style: TextStyle(fontStyle: FontStyle.italic),
-                      ),
-                      Text("Élise Moreau", style: TextStyle(fontSize: 30)),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Container(
-                        padding: EdgeInsets.all(10),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(12),
-                          color: Color(0xffF0EDE4),
-                        ),
-                        child: Icon(Icons.notifications_outlined),
-                      ),
-                      SizedBox(width: 5),
-                      GestureDetector(
-                        onTap: () {
-                          _showLogoutDialog(context);
-                        },
-                        child: Container(
-                          padding: const EdgeInsets.all(10),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(12),
-                            color: const Color(0xffF0EDE4),
-                          ),
-
-                          child: Icon(Icons.logout),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
+              _BuildHeaderSection(context),
               SizedBox(height: 15),
               Carousel(),
               SizedBox(height: 25),
@@ -237,5 +199,70 @@ class HomePage extends StatelessWidget {
         },
       ),
     );
+  }
+
+  Widget _BuildHeaderSection(BuildContext context) {
+    return Consumer<Authprovider>(
+      builder: (context, value, child) {
+        return Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  getMorningGreeting(),
+                  style: TextStyle(fontStyle: FontStyle.italic),
+                ),
+                value.isLoading
+                    ? ShimmerAnimation(width: 50, height: 50)
+                    : Text(
+                        value.user?.name ?? "Guest",
+                        style: TextStyle(fontSize: 30),
+                      ),
+              ],
+            ),
+            Row(
+              children: [
+                Container(
+                  padding: EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(12),
+                    color: Color(0xffF0EDE4),
+                  ),
+                  child: Icon(Icons.notifications_outlined),
+                ),
+                SizedBox(width: 5),
+                GestureDetector(
+                  onTap: () {
+                    _showLogoutDialog(context);
+                  },
+                  child: Container(
+                    padding: const EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(12),
+                      color: const Color(0xffF0EDE4),
+                    ),
+
+                    child: Icon(Icons.logout),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  String getMorningGreeting() {
+    final hour = DateTime.now().hour;
+    if (hour < 12) {
+      return "Good morning,";
+    } else if (hour < 18) {
+      return "Good afternoon,";
+    } else {
+      return "Good evening,";
+    }
   }
 }

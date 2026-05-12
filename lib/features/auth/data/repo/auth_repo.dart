@@ -111,6 +111,21 @@ class AuthRepo {
     return FirebaseAuth.instance.currentUser;
   }
 
+  Future<UserModel?> getUserData(String uid) async {
+    try {
+      DocumentSnapshot doc = await _firestore
+          .collection('users')
+          .doc(uid)
+          .get();
+      if (doc.exists) {
+        return UserModel.froMJson(doc.data() as Map<String, dynamic>);
+      }
+    } catch (e) {
+      print("فشل جلب بيانات المستخدم: ${e.toString()}");
+    }
+    return null;
+  }
+
   Future<String> getUserRole(String uid) async {
     try {
       DocumentSnapshot doc = await _firestore
